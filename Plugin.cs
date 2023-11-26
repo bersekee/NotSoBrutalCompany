@@ -42,13 +42,13 @@ namespace NotSoBrutalCompany
             //mls.LogMessage("ugh");
         }
 
-        [HarmonyPatch(typeof(TimeOfDay), "Start")]
+        [HarmonyPatch(typeof(TimeOfDay), "Awake")]
         [HarmonyPrefix]
         static void QuotaAjuster(TimeOfDay __instance)
         {
             __instance.quotaVariables.startingQuota = 500;
 
-            __instance.quotaVariables.startingCredits = 150;
+            __instance.quotaVariables.startingCredits = 80;
             __instance.quotaVariables.baseIncrease = 275;
             //__instance.quotaVariables.randomizerMultiplier = 0;
             //__instance.quotaVariables.deadlineDaysAmount = 10;
@@ -76,6 +76,10 @@ namespace NotSoBrutalCompany
             }
             else
             {
+                // Add credits
+                Terminal terminal = FindObjectOfType<Terminal>();
+                terminal.groupCredits += 120;
+
                 do
                 {
                     gameEvent = eventCreator.GetRandomEventWithWeight();
@@ -115,19 +119,21 @@ namespace NotSoBrutalCompany
             newLevel.minTotalScrapValue += 0;
             newLevel.maxTotalScrapValue += 800;
 
-            Keyframe[] keys = newLevel.daytimeEnemySpawnChanceThroughDay.GetKeys();
-            for (int i = 0; i < keys.Length; i++)
+            foreach (var item in newLevel.spawnableMapObjects)
             {
-                keys[i].value += 0.5f;
+                if (item.prefabToSpawn.GetComponentInChildren<Turret>() != null)
+                {
+                    item.numberToSpawn = new AnimationCurve(new Keyframe(0f, 0f), new Keyframe(1f, 10));
+                }
+                else if(item.prefabToSpawn.GetComponentInChildren<Landmine>() != null)
+                {
+                    item.numberToSpawn = new AnimationCurve(new Keyframe(0f, 0f), new Keyframe(1f, 70));
+                }
             }
-            newLevel.daytimeEnemySpawnChanceThroughDay.SetKeys(keys);
 
-            keys = newLevel.enemySpawnChanceThroughoutDay.GetKeys();
-            for (int i = 0; i < keys.Length; i++)
-            {
-                keys[i].value += 0.5f;
-            }
-            newLevel.enemySpawnChanceThroughoutDay.SetKeys(keys);
+            newLevel.daytimeEnemySpawnChanceThroughDay = new AnimationCurve(new Keyframe(0, 7f), new Keyframe(0.5f, 7));
+            newLevel.enemySpawnChanceThroughoutDay = new AnimationCurve(new Keyframe(0, 0.1f), new Keyframe(0.5f, 500));
+            newLevel.outsideEnemySpawnChanceThroughDay = new AnimationCurve(new Keyframe(0, -30f), new Keyframe(20f, -30), new Keyframe(21f, 10));
 
             newLevel.maxEnemyPowerCount += 2000;
             newLevel.maxOutsideEnemyPowerCount += 20;

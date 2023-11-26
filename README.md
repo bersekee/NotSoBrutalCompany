@@ -1,5 +1,12 @@
 # Not So Brutal Company
-A hardcore mod for lethal company
+A hardcore mod for lethal company for me and my friends.
+
+# V1.2.2
+- Increased to overall difficulty and quota.
+- Added passif credits.
+
+# V1.2.1
+- Lots of bug fixing and ajustments.
 
 # Installation
 First, install BepInEx 5 into your game
@@ -15,15 +22,14 @@ Launch the game and enjoy!
 # Features
 Increased difficulty
 
-Random moon events
+Random moon events ajusted to be more balanced.
 
 Syncing to clients who dont have the mod
 
-Removed the heat feature from the original mod
+Removed the heat feature from brutal copmany.
+
 
 # Notes
 ONLY THE HOST SHOULD HAVE THE MOD RUNNING!
 
 I intended for only the host to run the mod, so if you are going to be joining a friend, dont install the mod! have the host install it instead!
-
-

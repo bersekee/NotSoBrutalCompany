@@ -8,7 +8,7 @@ namespace NotSoBrutalCompany.Events
 {
     public class EventCreator
     {
-        List<EventEnum> customEventOrder = new List<EventEnum> { EventEnum.None };
+        List<EventEnum> customEventOrder = new List<EventEnum> { EventEnum.ThunderEvent };
 
         private int customCurrentIndex = 0;
         private int currentIndex = 0;
