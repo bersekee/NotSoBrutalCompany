@@ -64,7 +64,7 @@ namespace NotSoBrutalCompany
             // Clean and get the event for the game.
             if (gameEvent != null)
             {
-                gameEvent.OnLoadNewLevelCleanup(ref newLevel);
+                gameEvent.OnLoadNewLevelCleanup(ref lastLevel);
             }
 
             if (newLevel.sceneName == "CompanyBuilding")
@@ -73,9 +73,8 @@ namespace NotSoBrutalCompany
             }
             else
             {
-                //EventCreator creator = new EventCreator();
-                //gameEvent = creator.GetRandomEvent();
-                gameEvent = new DogEvent();
+                EventCreator creator = new EventCreator();
+                gameEvent = creator.GetRandomEvent();
             }
 
             HUDManager.Instance.AddTextToChatOnServer($"<color=red>Level event:</color> <color=green>{gameEvent.GetEventName()}</color>");

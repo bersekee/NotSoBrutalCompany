@@ -3,29 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace NotSoBrutalCompany.Events
 {
-    class BrackenCoilEvent : GameEvent
+    class LittleGirlEvent : GameEvent
     {
-        List<int> rarities = new List<int>();
+        int oldRarity;
 
         public override string GetEventName()
         {
-            return "The deadliest combo of all time";
+            return "Sweet Little Girl";
         }
 
         public override void OnLoadNewLevel(ref SelectableLevel newLevel)
         {
             for (int i = 0; i < newLevel.Enemies.Count; i++)
             {
-                rarities.Add(newLevel.Enemies[i].rarity);
-                if (newLevel.Enemies[i].enemyType.enemyPrefab.GetComponent<FlowermanAI>() != null)
+                if (newLevel.Enemies[i].enemyType.enemyPrefab.GetComponent<DressGirlAI>() != null)
                 {
-                    newLevel.Enemies[i].rarity = 999;
-                }
-                if (newLevel.Enemies[i].enemyType.enemyPrefab.GetComponent<SpringManAI>() != null)
-                {
+                    oldRarity = newLevel.Enemies[i].rarity;
                     newLevel.Enemies[i].rarity = 999;
                 }
             }
@@ -35,7 +32,10 @@ namespace NotSoBrutalCompany.Events
         {
             for (int i = 0; i < newLevel.Enemies.Count; i++)
             {
-                newLevel.Enemies[i].rarity = rarities[i];
+                if (newLevel.Enemies[i].enemyType.enemyPrefab.GetComponent<DressGirlAI>() != null)
+                {
+                    oldRarity = newLevel.Enemies[i].rarity;
+                }
             }
         }
     }

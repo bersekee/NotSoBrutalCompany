@@ -18,6 +18,9 @@ namespace NotSoBrutalCompany.Events
         RandomDelivery,
         WalkiDelivery,
         SpiderEvent,
-        DogEvent
+        DogEvent,
+        ThunderEvent,
+        JetpackDelivery,
+        LittleGirl
     }
 }

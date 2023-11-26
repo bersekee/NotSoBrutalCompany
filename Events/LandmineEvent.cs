@@ -23,7 +23,7 @@ namespace NotSoBrutalCompany.Events
                 if (item.prefabToSpawn.GetComponentInChildren<Landmine>() != null)
                 {
                     oldCurve = item.numberToSpawn;
-                    item.numberToSpawn = new AnimationCurve(new UnityEngine.Keyframe(0f, 300f), new UnityEngine.Keyframe(1f, 170f));
+                    item.numberToSpawn = new AnimationCurve(new UnityEngine.Keyframe(0f, 120f), new UnityEngine.Keyframe(1f, 68f));
                 }
             }
         }

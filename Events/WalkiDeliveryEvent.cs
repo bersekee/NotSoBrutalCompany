@@ -17,12 +17,11 @@ namespace NotSoBrutalCompany.Events
         {
             Terminal terminal2 = UnityEngine.Object.FindObjectOfType<Terminal>();
             int itemCount = terminal2.orderedItemsFromTerminal.Count;
-            if (itemCount == 0)
+            if (itemCount < 5)
             {
-                itemCount = 1;
+                itemCount = 5;
             }
 
-            terminal2.orderedItemsFromTerminal.Clear();
             for (int i = 0; i < itemCount; i++)
             {
                 terminal2.orderedItemsFromTerminal.Add(0);

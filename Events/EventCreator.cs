@@ -37,6 +37,12 @@ namespace NotSoBrutalCompany.Events
                     return new SpiderEvent();
                 case EventEnum.DogEvent:
                     return new DogEvent();
+                case EventEnum.ThunderEvent:
+                    return new ThunderEvent();
+                case EventEnum.JetpackDelivery:
+                    return new JetpackDelivery();
+                case EventEnum.LittleGirl:
+                    return new LittleGirlEvent();
                 default:
                     break;
             }

@@ -23,7 +23,7 @@ namespace NotSoBrutalCompany.Events
                 if (item.prefabToSpawn.GetComponentInChildren<Turret>() != null)
                 {
                     oldCurve = item.numberToSpawn;
-                    item.numberToSpawn = new AnimationCurve(new UnityEngine.Keyframe(0f, 200f), new UnityEngine.Keyframe(1f, 25));
+                    item.numberToSpawn = new AnimationCurve(new Keyframe(0f, 100f), new Keyframe(1f, 13));
                 }
             }
         }
