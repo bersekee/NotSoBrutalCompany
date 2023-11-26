@@ -10,13 +10,13 @@ namespace NotSoBrutalCompany.Events
     {
         public override string GetEventName()
         {
-            return "Jetpack delivery (maybe)";
+            return "Jetpack delivery";
         }
 
         public override void OnLoadNewLevel(ref SelectableLevel newLevel)
         {
             int quantity = 5;
-            int jetPackId = 5;
+            int jetPackId = 9;
 
             Terminal terminal = UnityEngine.Object.FindObjectOfType<Terminal>();
             for (int i = 0; i < quantity; i++)

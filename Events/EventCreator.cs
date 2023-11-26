@@ -8,12 +8,59 @@ namespace NotSoBrutalCompany.Events
 {
     public class EventCreator
     {
+        List<EventEnum> customEventOrder = new List<EventEnum> { EventEnum.None };
+
+        private int customCurrentIndex = 0;
+        private int currentIndex = 0;
+
         public GameEvent GetRandomEvent()
         {
             Array values = Enum.GetValues(typeof(EventEnum));
             Random random = new Random();
             EventEnum randomEvent = (EventEnum)values.GetValue(random.Next(values.Length));
-            switch (randomEvent)
+            return EnumToEvent(randomEvent);
+        }
+
+        public GameEvent GetRandomEventWithWeight()
+        {
+            Random random = new Random();
+            int randomValue = random.Next(0, 10);
+            if (randomValue < 3)
+            {
+                return new NoneEvent();
+            }
+
+            Array values = Enum.GetValues(typeof(EventEnum));
+            EventEnum randomEvent = (EventEnum)values.GetValue(random.Next(values.Length));
+            return EnumToEvent(randomEvent);
+        }
+
+        public GameEvent GetEventInOrder()
+        {
+            Array values = Enum.GetValues(typeof(EventEnum));
+            EventEnum currentEvent = (EventEnum)values.GetValue(currentIndex);
+            currentIndex++;
+            if (currentIndex >= values.Length)
+            {
+                currentIndex = 0;
+            }
+            return EnumToEvent(currentEvent);
+        }
+
+        public GameEvent GetEventInCustomOrder()
+        {
+            EventEnum currentEvent = customEventOrder[customCurrentIndex];
+            customCurrentIndex++;
+            if (customCurrentIndex >= customEventOrder.Count)
+            {
+                customCurrentIndex = 0;
+            }
+            return EnumToEvent(currentEvent);
+        }
+
+        public GameEvent EnumToEvent(EventEnum eventEnum)
+        {
+            switch (eventEnum)
             {
                 case EventEnum.None:
                     return new NoneEvent();
@@ -43,8 +90,8 @@ namespace NotSoBrutalCompany.Events
                     return new JetpackDelivery();
                 case EventEnum.LittleGirl:
                     return new LittleGirlEvent();
-                default:
-                    break;
+                case EventEnum.Monkey:
+                    return new MonkeyEvent();
             }
 
             //Default

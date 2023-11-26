@@ -6,21 +6,22 @@ using System.Threading.Tasks;
 
 namespace NotSoBrutalCompany.Events
 {
-    enum EventEnum
+    public enum EventEnum
     {
+        BrackenAndCoil,
+        Hoarding,
         None,
         Turret,
         Landmine,
-        Hoarding,
         Lasso,
         SnareFlea,
-        BrackenAndCoil,
         RandomDelivery,
         WalkiDelivery,
         SpiderEvent,
         DogEvent,
         ThunderEvent,
         JetpackDelivery,
-        LittleGirl
+        LittleGirl,
+        Monkey
     }
 }

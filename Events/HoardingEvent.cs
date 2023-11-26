@@ -41,5 +41,17 @@ namespace NotSoBrutalCompany.Events
                 newLevel.Enemies[i].rarity = rarities[i];
             }
         }
+
+        public override bool IsValid(ref SelectableLevel newLevel)
+        {
+            foreach (var enemy in newLevel.Enemies)
+            {
+                if (enemy.enemyType.enemyPrefab.GetComponent<HoarderBugAI>() != null)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

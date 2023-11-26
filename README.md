@@ -19,6 +19,7 @@ Random moon events
 
 Syncing to clients who dont have the mod
 
+Removed the heat feature from the original mod
 
 # Notes
 ONLY THE HOST SHOULD HAVE THE MOD RUNNING!

@@ -17,7 +17,7 @@ namespace NotSoBrutalCompany.Events
         {
             foreach (var item in newLevel.spawnableScrap)
             {
-
+                //item.spawnableItem.
             }
         }
     }

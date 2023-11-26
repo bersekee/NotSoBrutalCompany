@@ -1,7 +1,6 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
-using NotSoBrutalCompany.Component;
 using NotSoBrutalCompany.Events;
 using NotSoBrutalCompany.Heat;
 using System.Collections.Generic;
@@ -15,6 +14,7 @@ namespace NotSoBrutalCompany
         public static bool loaded;
 
         public static GameEvent gameEvent = null;
+        public static EventCreator eventCreator = new EventCreator();
 
         public static HeatController heatController;
 
@@ -40,15 +40,18 @@ namespace NotSoBrutalCompany
         public void OnDestroy()
         {
             //mls.LogMessage("ugh");
-            if (!loaded)
-            {
-                GameObject gameObject = new GameObject("QuotaChanger");
-                DontDestroyOnLoad(gameObject);
-                gameObject.AddComponent<QuotaAjuster>();
-                //mls.LogMessage("Created the gameobject!");
-                loaded = true;
-                //LC_API.ServerAPI.ModdedServer.SetServerModdedOnly();
-            }
+        }
+
+        [HarmonyPatch(typeof(TimeOfDay), "Start")]
+        [HarmonyPrefix]
+        static void QuotaAjuster(TimeOfDay __instance)
+        {
+            __instance.quotaVariables.startingQuota = 500;
+
+            __instance.quotaVariables.startingCredits = 150;
+            __instance.quotaVariables.baseIncrease = 275;
+            //__instance.quotaVariables.randomizerMultiplier = 0;
+            //__instance.quotaVariables.deadlineDaysAmount = 10;
         }
 
         [HarmonyPatch(typeof(RoundManager), nameof(RoundManager.LoadNewLevel))]
@@ -73,8 +76,11 @@ namespace NotSoBrutalCompany
             }
             else
             {
-                EventCreator creator = new EventCreator();
-                gameEvent = creator.GetRandomEvent();
+                do
+                {
+                    gameEvent = eventCreator.GetRandomEventWithWeight();
+                }
+                while (!gameEvent.IsValid(ref newLevel));
             }
 
             HUDManager.Instance.AddTextToChatOnServer($"<color=red>Level event:</color> <color=green>{gameEvent.GetEventName()}</color>");
@@ -83,6 +89,18 @@ namespace NotSoBrutalCompany
 
             lastLevel = newLevel;
 
+            //foreach (var enemy in newLevel.Enemies)
+            //{
+            //    mls.LogInfo($"SpawnChance: {enemy.enemyType.name}-{enemy.rarity}");
+            //}
+            //foreach (var key in newLevel.enemySpawnChanceThroughoutDay.keys)
+            //{
+            //    mls.LogInfo($"SpawnChanceKeyInside: {key.time}-{key.value}");
+            //}
+            //foreach (var key in newLevel.daytimeEnemySpawnChanceThroughDay.keys)
+            //{
+            //    mls.LogInfo($"SpawnChanceKeyOutside: {key.time}-{key.value}");
+            //}
             return true;
         }
 
@@ -97,15 +115,25 @@ namespace NotSoBrutalCompany
             newLevel.minTotalScrapValue += 0;
             newLevel.maxTotalScrapValue += 800;
 
-            newLevel.daytimeEnemySpawnChanceThroughDay = new UnityEngine.AnimationCurve(new UnityEngine.Keyframe(0, 7f), new Keyframe(0.5f, 7));
+            Keyframe[] keys = newLevel.daytimeEnemySpawnChanceThroughDay.GetKeys();
+            for (int i = 0; i < keys.Length; i++)
+            {
+                keys[i].value += 0.5f;
+            }
+            newLevel.daytimeEnemySpawnChanceThroughDay.SetKeys(keys);
+
+            keys = newLevel.enemySpawnChanceThroughoutDay.GetKeys();
+            for (int i = 0; i < keys.Length; i++)
+            {
+                keys[i].value += 0.5f;
+            }
+            newLevel.enemySpawnChanceThroughoutDay.SetKeys(keys);
 
             newLevel.maxEnemyPowerCount += 2000;
             newLevel.maxOutsideEnemyPowerCount += 20;
             newLevel.maxDaytimeEnemyPowerCount += 200;
 
             difficultyModifiedLevels.Add(newLevel.levelID);
-
-            mls.LogInfo("New level values: Factory size - " + newLevel.factorySizeMultiplier + " MinScrap - " + newLevel.minScrap + " MaxScrap - " + newLevel.maxScrap + " MinTotalScrapValue - " + newLevel.minTotalScrapValue + " MaxTotalScrapValue - " + newLevel.maxTotalScrapValue + " SpawnChance - " + newLevel.enemySpawnChanceThroughoutDay);
         }
     }
 }

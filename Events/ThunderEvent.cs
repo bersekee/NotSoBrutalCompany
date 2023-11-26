@@ -21,13 +21,13 @@ namespace NotSoBrutalCompany.Events
             oldType = newLevel.overrideWeatherType;
             oldOverrideWeather = newLevel.overrideWeather;
 
-            newLevel.overrideWeatherType = LevelWeatherType.Stormy;
-            newLevel.overrideWeather = true;
+            newLevel.currentWeather = LevelWeatherType.Stormy;
+            newLevel.overrideWeather = false;
         }
 
         public override void OnLoadNewLevelCleanup(ref SelectableLevel newLevel)
         {
-            newLevel.overrideWeatherType = oldType;
+            newLevel.currentWeather = oldType;
             newLevel.overrideWeather = oldOverrideWeather;
         }
     }
