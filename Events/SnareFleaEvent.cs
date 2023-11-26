@@ -11,6 +11,8 @@ namespace NotSoBrutalCompany.Events
     {
         AnimationCurve oldAnimationCurve;
         List<int> rarities = new List<int>();
+        int oldMaxCount;
+
 
         public override string GetEventName()
         {
@@ -29,6 +31,9 @@ namespace NotSoBrutalCompany.Events
                 if (newLevel.Enemies[i].enemyType.enemyPrefab.GetComponent<CentipedeAI>() != null)
                 {
                     newLevel.Enemies[i].rarity = 999;
+
+                    oldMaxCount = newLevel.Enemies[i].enemyType.MaxCount;
+                    newLevel.Enemies[i].enemyType.MaxCount = 7;
                 }
             }
         }
@@ -39,6 +44,10 @@ namespace NotSoBrutalCompany.Events
             for (int i = 0; i < newLevel.Enemies.Count; i++)
             {
                 newLevel.Enemies[i].rarity = rarities[i];
+                if (newLevel.Enemies[i].enemyType.enemyPrefab.GetComponent<CentipedeAI>() != null)
+                {
+                    newLevel.Enemies[i].enemyType.MaxCount = oldMaxCount;
+                }
             }
         }
 

@@ -1,6 +1,10 @@
 # Not So Brutal Company
 A hardcore mod for lethal company for me and my friends.
 
+# V1.2.3
+- Increased the maximum number of enemies during specific events. Ex: More spiders during arachnophobia event. :)
+- Added a new event.
+
 # V1.2.2
 - Increased to overall difficulty and quota.
 - Added passif credits.

@@ -11,6 +11,8 @@ namespace NotSoBrutalCompany.Events
     {
         AnimationCurve oldAnimationCurve;
         List<int> rarities = new List<int>();
+        int oldCoilMax;
+        int oldFlowerMax;
 
         public override string GetEventName()
         {
@@ -28,10 +30,16 @@ namespace NotSoBrutalCompany.Events
                 if (newLevel.Enemies[i].enemyType.enemyPrefab.GetComponent<FlowermanAI>() != null)
                 {
                     newLevel.Enemies[i].rarity = 999;
+
+                    oldFlowerMax = newLevel.Enemies[i].enemyType.MaxCount;
+                    newLevel.Enemies[i].enemyType.MaxCount = 5;
                 }
                 if (newLevel.Enemies[i].enemyType.enemyPrefab.GetComponent<SpringManAI>() != null)
                 {
                     newLevel.Enemies[i].rarity = 999;
+
+                    oldCoilMax = newLevel.Enemies[i].enemyType.MaxCount;
+                    newLevel.Enemies[i].enemyType.MaxCount = 5;
                 }
             }
         }
@@ -42,6 +50,14 @@ namespace NotSoBrutalCompany.Events
             for (int i = 0; i < newLevel.Enemies.Count; i++)
             {
                 newLevel.Enemies[i].rarity = rarities[i];
+                if (newLevel.Enemies[i].enemyType.enemyPrefab.GetComponent<FlowermanAI>() != null)
+                {
+                    newLevel.Enemies[i].enemyType.MaxCount = oldFlowerMax;
+                }
+                if (newLevel.Enemies[i].enemyType.enemyPrefab.GetComponent<SpringManAI>() != null)
+                {
+                    newLevel.Enemies[i].enemyType.MaxCount = oldCoilMax;
+                }
             }
         }
 

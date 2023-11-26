@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace NotSoBrutalCompany.Events
 {
-    class SpiderEvent : GameEvent
+    class ThumperEvent : GameEvent
     {
         AnimationCurve oldAnimationCurve;
         List<int> rarities = new List<int>();
@@ -15,7 +15,7 @@ namespace NotSoBrutalCompany.Events
 
         public override string GetEventName()
         {
-            return "Arachnophobia";
+            return "Thump Thump Thump";
         }
 
         public override void OnLoadNewLevel(ref SelectableLevel newLevel)
@@ -27,7 +27,8 @@ namespace NotSoBrutalCompany.Events
             {
                 rarities.Add(newLevel.Enemies[i].rarity);
                 newLevel.Enemies[i].rarity = 0;
-                if (newLevel.Enemies[i].enemyType.enemyPrefab.GetComponent<SandSpiderAI>() != null)
+
+                if (newLevel.Enemies[i].enemyType.enemyPrefab.GetComponent<CrawlerAI>() != null)
                 {
                     newLevel.Enemies[i].rarity = 999;
 
@@ -43,7 +44,8 @@ namespace NotSoBrutalCompany.Events
             for (int i = 0; i < newLevel.Enemies.Count; i++)
             {
                 newLevel.Enemies[i].rarity = rarities[i];
-                if (newLevel.Enemies[i].enemyType.enemyPrefab.GetComponent<SandSpiderAI>() != null)
+
+                if (newLevel.Enemies[i].enemyType.enemyPrefab.GetComponent<CrawlerAI>() != null)
                 {
                     newLevel.Enemies[i].enemyType.MaxCount = oldMaxCount;
                 }
@@ -54,7 +56,7 @@ namespace NotSoBrutalCompany.Events
         {
             foreach (var enemy in newLevel.Enemies)
             {
-                if (enemy.enemyType.enemyPrefab.GetComponent<SandSpiderAI>() != null)
+                if (enemy.enemyType.enemyPrefab.GetComponent<CrawlerAI>() != null)
                 {
                     return true;
                 }

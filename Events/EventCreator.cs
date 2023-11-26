@@ -8,7 +8,7 @@ namespace NotSoBrutalCompany.Events
 {
     public class EventCreator
     {
-        List<EventEnum> customEventOrder = new List<EventEnum> { EventEnum.ThunderEvent };
+        List<EventEnum> customEventOrder = new List<EventEnum> { EventEnum.BrackenAndCoil };
 
         private int customCurrentIndex = 0;
         private int currentIndex = 0;
@@ -25,7 +25,7 @@ namespace NotSoBrutalCompany.Events
         {
             Random random = new Random();
             int randomValue = random.Next(0, 10);
-            if (randomValue < 3)
+            if (randomValue < 4)
             {
                 return new NoneEvent();
             }
@@ -84,7 +84,7 @@ namespace NotSoBrutalCompany.Events
                     return new SpiderEvent();
                 case EventEnum.DogEvent:
                     return new DogEvent();
-                case EventEnum.ThunderEvent:
+                case EventEnum.Thunder:
                     return new ThunderEvent();
                 case EventEnum.JetpackDelivery:
                     return new JetpackDelivery();
@@ -92,6 +92,8 @@ namespace NotSoBrutalCompany.Events
                     return new LittleGirlEvent();
                 case EventEnum.Monkey:
                     return new MonkeyEvent();
+                case EventEnum.Thumper:
+                    return new ThumperEvent();
             }
 
             //Default
