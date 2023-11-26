@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace BrutalCompany.Component
+namespace NotSoBrutalCompany.Component
 {
     internal class QuotaAjuster : MonoBehaviour
     {

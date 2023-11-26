@@ -1,4 +1,4 @@
-# Brutal Company
+# Not So Brutal Company
 A hardcore mod for lethal company
 
 # Installation
@@ -8,7 +8,7 @@ First, install BepInEx 5 into your game
 Then, install the LC API into your game
 (https://thunderstore.io/c/lethal-company/p/2018/LC_API/)
 
-Then, drop the BrutalCompany.dll file in Lethal Company\BepInEx\plugins
+Then, drop the NotSoBrutalCompany.dll file in Lethal Company\BepInEx\plugins
 
 Launch the game and enjoy!
 
@@ -16,8 +16,6 @@ Launch the game and enjoy!
 Increased difficulty
 
 Random moon events
-
-More game mechanics (only one so far lol)
 
 Syncing to clients who dont have the mod
 

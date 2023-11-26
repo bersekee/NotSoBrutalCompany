@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BrutalCompany.ManualPatches
+namespace NotSoBrutalCompany.ManualPatches
 {
     [HarmonyPatch(typeof(TimeOfDay), "Start")]
     internal class Patch_QuotaAjuster
