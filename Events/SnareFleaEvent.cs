@@ -33,7 +33,7 @@ namespace NotSoBrutalCompany.Events
                     newLevel.Enemies[i].rarity = 999;
 
                     oldMaxCount = newLevel.Enemies[i].enemyType.MaxCount;
-                    newLevel.Enemies[i].enemyType.MaxCount = 7;
+                    newLevel.Enemies[i].enemyType.MaxCount = 6;
                 }
             }
         }

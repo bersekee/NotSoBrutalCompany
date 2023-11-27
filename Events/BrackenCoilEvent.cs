@@ -32,7 +32,7 @@ namespace NotSoBrutalCompany.Events
                     newLevel.Enemies[i].rarity = 999;
 
                     oldFlowerMax = newLevel.Enemies[i].enemyType.MaxCount;
-                    newLevel.Enemies[i].enemyType.MaxCount = 5;
+                    newLevel.Enemies[i].enemyType.MaxCount = 4;
                 }
                 if (newLevel.Enemies[i].enemyType.enemyPrefab.GetComponent<SpringManAI>() != null)
                 {
