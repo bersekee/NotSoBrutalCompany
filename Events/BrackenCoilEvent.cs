@@ -19,7 +19,7 @@ namespace NotSoBrutalCompany.Events
             return "The deadliest combo of all time";
         }
 
-        public override void OnLoadNewLevel(ref SelectableLevel newLevel)
+        public override void OnLoadNewLevel(ref SelectableLevel newLevel, ConfigSettings configs)
         {
             oldAnimationCurve = newLevel.enemySpawnChanceThroughoutDay;
             newLevel.enemySpawnChanceThroughoutDay = new AnimationCurve(new UnityEngine.Keyframe(0, 500f));
@@ -32,14 +32,14 @@ namespace NotSoBrutalCompany.Events
                     newLevel.Enemies[i].rarity = 999;
 
                     oldFlowerMax = newLevel.Enemies[i].enemyType.MaxCount;
-                    newLevel.Enemies[i].enemyType.MaxCount = 4;
+                    newLevel.Enemies[i].enemyType.MaxCount = configs.FlowermanCoilEventFlowermanMax.Value;
                 }
                 if (newLevel.Enemies[i].enemyType.enemyPrefab.GetComponent<SpringManAI>() != null)
                 {
                     newLevel.Enemies[i].rarity = 999;
 
                     oldCoilMax = newLevel.Enemies[i].enemyType.MaxCount;
-                    newLevel.Enemies[i].enemyType.MaxCount = 5;
+                    newLevel.Enemies[i].enemyType.MaxCount = configs.FlowermanCoilEventCoilHeadMax.Value;
                 }
             }
         }

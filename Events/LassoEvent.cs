@@ -14,7 +14,7 @@ namespace NotSoBrutalCompany.Events
             return "Lasso man is real";
         }
 
-        public override void OnLoadNewLevel(ref SelectableLevel newLevel)
+        public override void OnLoadNewLevel(ref SelectableLevel newLevel, ConfigSettings configs)
         {
             bool gotLasso = false;
             bool addedLasso = false;

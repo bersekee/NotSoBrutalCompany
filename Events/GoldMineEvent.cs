@@ -13,7 +13,7 @@ namespace NotSoBrutalCompany.Events
             return "Gold Mine";
         }
 
-        public override void OnLoadNewLevel(ref SelectableLevel newLevel)
+        public override void OnLoadNewLevel(ref SelectableLevel newLevel, ConfigSettings configs)
         {
             foreach (var item in newLevel.spawnableScrap)
             {

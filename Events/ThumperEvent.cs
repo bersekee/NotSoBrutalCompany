@@ -18,7 +18,7 @@ namespace NotSoBrutalCompany.Events
             return "Thump Thump Thump";
         }
 
-        public override void OnLoadNewLevel(ref SelectableLevel newLevel)
+        public override void OnLoadNewLevel(ref SelectableLevel newLevel, ConfigSettings configs)
         {
             oldAnimationCurve = newLevel.enemySpawnChanceThroughoutDay;
             newLevel.enemySpawnChanceThroughoutDay = new AnimationCurve(new Keyframe(0, 500f));
@@ -33,7 +33,7 @@ namespace NotSoBrutalCompany.Events
                     newLevel.Enemies[i].rarity = 999;
 
                     oldMaxCount = newLevel.Enemies[i].enemyType.MaxCount;
-                    newLevel.Enemies[i].enemyType.MaxCount = 6;
+                    newLevel.Enemies[i].enemyType.MaxCount = configs.ThumperEventThumperMax.Value;
                 }
             }
         }

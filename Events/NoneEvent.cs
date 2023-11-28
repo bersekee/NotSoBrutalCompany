@@ -13,7 +13,7 @@ namespace NotSoBrutalCompany.Events
             return "None";
         }
 
-        public override void OnLoadNewLevel(ref SelectableLevel newLevel)
+        public override void OnLoadNewLevel(ref SelectableLevel newLevel, ConfigSettings config)
         {
         }
     }

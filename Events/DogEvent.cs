@@ -17,7 +17,7 @@ namespace NotSoBrutalCompany.Events
             return "Who let the dogs out";
         }
 
-        public override void OnLoadNewLevel(ref SelectableLevel newLevel)
+        public override void OnLoadNewLevel(ref SelectableLevel newLevel, ConfigSettings configs)
         {
             oldOutsideSpawnChance = newLevel.outsideEnemySpawnChanceThroughDay;
             newLevel.outsideEnemySpawnChanceThroughDay = new AnimationCurve(new Keyframe(0, 3), new Keyframe(20f, 3), new Keyframe(21f, 3));

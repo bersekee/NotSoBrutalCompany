@@ -13,9 +13,9 @@ namespace NotSoBrutalCompany.Events
             return "Jetpack delivery";
         }
 
-        public override void OnLoadNewLevel(ref SelectableLevel newLevel)
+        public override void OnLoadNewLevel(ref SelectableLevel newLevel, ConfigSettings configs)
         {
-            int quantity = 5;
+            int quantity = configs.JetpackEventJetpackCount.Value;
             int jetPackId = 9;
 
             Terminal terminal = UnityEngine.Object.FindObjectOfType<Terminal>();

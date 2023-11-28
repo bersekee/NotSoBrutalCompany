@@ -13,7 +13,7 @@ namespace NotSoBrutalCompany.Events
             return "Walkie delivery";
         }
 
-        public override void OnLoadNewLevel(ref SelectableLevel newLevel)
+        public override void OnLoadNewLevel(ref SelectableLevel newLevel, ConfigSettings configs)
         {
             Terminal terminal2 = UnityEngine.Object.FindObjectOfType<Terminal>();
             int itemCount = terminal2.orderedItemsFromTerminal.Count;

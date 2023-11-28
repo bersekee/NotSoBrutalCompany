@@ -14,7 +14,7 @@ namespace NotSoBrutalCompany.Events
             return "Lost delivery";
         }
 
-        public override void OnLoadNewLevel(ref SelectableLevel newLevel)
+        public override void OnLoadNewLevel(ref SelectableLevel newLevel, ConfigSettings configs)
         {
             int randItemCount = Random.Range(2, 9);
             for (int i = 0; i < randItemCount; i++)

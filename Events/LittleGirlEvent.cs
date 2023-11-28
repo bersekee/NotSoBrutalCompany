@@ -16,7 +16,7 @@ namespace NotSoBrutalCompany.Events
             return "Sweet Little Girl";
         }
 
-        public override void OnLoadNewLevel(ref SelectableLevel newLevel)
+        public override void OnLoadNewLevel(ref SelectableLevel newLevel, ConfigSettings configs)
         {
             for (int i = 0; i < newLevel.Enemies.Count; i++)
             {

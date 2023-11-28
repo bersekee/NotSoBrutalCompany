@@ -1,18 +1,28 @@
 # Not So Brutal Company
-A hardcore mod for lethal company for me and my friends.
+A configurable hardcore mod for lethal company for me and my friends.
 
 Feel free to add comments/suggestions here: https://github.com/bersekee/NotSoBrutalCompany/discussions
+
+# Features
+Increased and configurable difficulty, config file is located at (GAME_DIRECTORY/BepinEx/configs/NotSoBrutalCompany.cfg)
+
+Random moon events ajusted to be more balanced.
+
+Syncing to clients who dont have the mod
+
+Removed the heat feature from brutal company.
+
+# V1.3.0
+- Added a config file to modify most of the internal values (quota, credit, enemies, etc...). Some event values are missing.
+- Normally nothing else changed, however this went through minimal testing.
 
 # V1.2.3
 - Increased the maximum number of enemies during specific events Ex: More spiders during arachnophobia event. I will monitor the changes and try to balance it.
 - Added a new event.
 
 # V1.2.2
-- Increased to overall difficulty and quota.
+- Increased the overall difficulty and quota.
 - Added passif credits.
-
-# V1.2.1
-- Lots of bug fixing and ajustments.
 
 # Installation
 First, install BepInEx 5 into your game
@@ -24,16 +34,6 @@ Then, install the LC API into your game
 Then, drop the NotSoBrutalCompany.dll file in Lethal Company\BepInEx\plugins
 
 Launch the game and enjoy!
-
-# Features
-Increased difficulty
-
-Random moon events ajusted to be more balanced.
-
-Syncing to clients who dont have the mod
-
-Removed the heat feature from brutal copmany.
-
 
 # Notes
 ONLY THE HOST SHOULD HAVE THE MOD RUNNING!

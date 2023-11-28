@@ -16,7 +16,7 @@ namespace NotSoBrutalCompany.Events
             return "Thunderstruck";
         }
 
-        public override void OnLoadNewLevel(ref SelectableLevel newLevel)
+        public override void OnLoadNewLevel(ref SelectableLevel newLevel, ConfigSettings configs)
         {
             oldType = newLevel.overrideWeatherType;
             oldOverrideWeather = newLevel.overrideWeather;

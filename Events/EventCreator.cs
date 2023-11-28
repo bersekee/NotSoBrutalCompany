@@ -21,11 +21,11 @@ namespace NotSoBrutalCompany.Events
             return EnumToEvent(randomEvent);
         }
 
-        public GameEvent GetRandomEventWithWeight()
+        public GameEvent GetRandomEventWithWeight(int eventProbability)
         {
             Random random = new Random();
             int randomValue = random.Next(0, 10);
-            if (randomValue < 4)
+            if (randomValue < eventProbability)
             {
                 return new NoneEvent();
             }
