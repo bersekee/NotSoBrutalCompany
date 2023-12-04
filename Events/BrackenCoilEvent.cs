@@ -7,7 +7,15 @@ using UnityEngine;
 
 namespace NotSoBrutalCompany.Events
 {
-    class BrackenCoilEvent : GameEvent
+    class BrackenCoilEventCreator : BrutalEventCreator
+    {
+        public override BrutalEvent Create()
+        {
+            return new BrackenCoilEvent();
+        }
+    }
+
+    class BrackenCoilEvent : BrutalEvent
     {
         AnimationCurve oldAnimationCurve;
         List<int> rarities = new List<int>();

@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace NotSoBrutalCompany.Events
 {
-    public abstract class GameEvent
+    public abstract class BrutalEventCreator
+    {
+        public abstract BrutalEvent Create();
+    }
+
+    public abstract class BrutalEvent
     {
         public abstract string GetEventName();
         public abstract void OnLoadNewLevel(ref SelectableLevel newLevel, ConfigSettings configs);

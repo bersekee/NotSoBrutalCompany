@@ -7,7 +7,15 @@ using UnityEngine;
 
 namespace NotSoBrutalCompany.Events
 {
-    class HoardingEvent : GameEvent
+    class HoardingEventCreator : BrutalEventCreator
+    {
+        public override BrutalEvent Create()
+        {
+            return new HoardingEvent();
+        }
+    }
+
+    class HoardingEvent : BrutalEvent
     {
         AnimationCurve oldAnimationCurve;
         List<int> rarities = new List<int>();

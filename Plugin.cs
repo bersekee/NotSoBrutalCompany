@@ -18,8 +18,8 @@ namespace NotSoBrutalCompany
 
         public static bool loaded;
 
-        public static GameEvent gameEvent = null;
-        public static EventCreator eventCreator = new EventCreator();
+        public static BrutalEvent gameEvent = null;
+        internal static EventCreator eventCreator = new EventCreator();
 
         public static SelectableLevel lastLevel = null;
 
@@ -34,6 +34,8 @@ namespace NotSoBrutalCompany
             instance = this;
 
             configSettings.LoadConfigs();
+
+            BrutalEventList.AddBaseEvents(configSettings);
 
             mls = BepInEx.Logging.Logger.CreateLogSource("NotSoBrutalCompany");
             // Plugin startup logic
@@ -52,12 +54,22 @@ namespace NotSoBrutalCompany
         [HarmonyPrefix]
         static void QuotaAjuster(TimeOfDay __instance)
         {
-            __instance.quotaVariables.startingQuota = configSettings.StartingQuota.Value;
+            if (configSettings.EnableQuotaModification.Value)
+            {
+                __instance.quotaVariables.startingQuota = configSettings.StartingQuota.Value;
+            }
 
-            __instance.quotaVariables.startingCredits = configSettings.StartingCredits.Value;
-            __instance.quotaVariables.baseIncrease = configSettings.QuotaIncrease.Value;
+            if (configSettings.EnableCreditModification.Value)
+            {
+                __instance.quotaVariables.startingCredits = configSettings.StartingCredits.Value;
+                __instance.quotaVariables.baseIncrease = configSettings.QuotaIncrease.Value;
+            }
+
+            if (configSettings.EnableDeadlineModification.Value)
+            {
+                __instance.quotaVariables.deadlineDaysAmount = configSettings.DeadlineDays.Value;
+            }
             //__instance.quotaVariables.randomizerMultiplier = 0;
-            //__instance.quotaVariables.deadlineDaysAmount = 10;
         }
 
         [HarmonyPatch(typeof(RoundManager), nameof(RoundManager.LoadNewLevel))]
@@ -84,33 +96,41 @@ namespace NotSoBrutalCompany
             {
                 // Add credits
                 Terminal terminal = FindObjectOfType<Terminal>();
-                terminal.groupCredits += configSettings.PassiveCredits.Value;
 
+                if (configSettings.EnableCreditModification.Value)
+                {
+                    terminal.groupCredits += configSettings.PassiveCredits.Value;
+                }
+
+                int counter = 0;
                 do
                 {
                     gameEvent = eventCreator.GetRandomEventWithWeight(configSettings.EventProbability.Value);
+                    //gameEvent = eventCreator.GetEventInCustomOrder();
+
+                    counter++;
                 }
-                while (!gameEvent.IsValid(ref newLevel));
+                while (!gameEvent.IsValid(ref newLevel) && counter < 4); //fail safe
+
+                if (counter >= 4)
+                {
+                    gameEvent = new NoneEvent();
+                }
             }
 
-            HUDManager.Instance.AddTextToChatOnServer($"<color=red>Level event:</color> <color=green>{gameEvent.GetEventName()}</color>");
+            if (configSettings.EventHidden.Value)
+            {
+                HUDManager.Instance.AddTextToChatOnServer($"<color=red>Level event:</color> <color=green>?</color>");
+            }
+            else
+            {
+                HUDManager.Instance.AddTextToChatOnServer($"<color=red>Level event:</color> <color=green>{gameEvent.GetEventName()}</color>");
+            }
 
             gameEvent.OnLoadNewLevel(ref newLevel, configSettings);
 
             lastLevel = newLevel;
-            
-            //foreach (var enemy in newLevel.Enemies)
-            //{
-            //    mls.LogInfo($"SpawnChance: {enemy.enemyType.name}-{enemy.rarity}");
-            //}
-            //foreach (var key in newLevel.enemySpawnChanceThroughoutDay.keys)
-            //{
-            //    mls.LogInfo($"SpawnChanceKeyInside: {key.time}-{key.value}");
-            //}
-            //foreach (var key in newLevel.daytimeEnemySpawnChanceThroughDay.keys)
-            //{
-            //    mls.LogInfo($"SpawnChanceKeyOutside: {key.time}-{key.value}");
-            //}
+           
             return true;
         }
 
@@ -120,30 +140,41 @@ namespace NotSoBrutalCompany
                 return;
 
             // Make level harder
-            newLevel.minScrap += configSettings.MinScrapModifier.Value;
-            newLevel.maxScrap += configSettings.MaxScrapModifier.Value;
-            newLevel.minTotalScrapValue += configSettings.MinScrapValueModifier.Value;
-            newLevel.maxTotalScrapValue += configSettings.MaxScrapValueModifier.Value;
 
-            foreach (var item in newLevel.spawnableMapObjects)
+            if (configSettings.EnableScrapModification.Value)
             {
-                if (item.prefabToSpawn.GetComponentInChildren<Turret>() != null)
+                newLevel.minScrap += configSettings.MinScrapModifier.Value;
+                newLevel.maxScrap += configSettings.MaxScrapModifier.Value;
+                newLevel.minTotalScrapValue += configSettings.MinScrapValueModifier.Value;
+                newLevel.maxTotalScrapValue += configSettings.MaxScrapValueModifier.Value;
+            }
+
+
+            if (configSettings.EnableHazardModification.Value)
+            {
+                foreach (var item in newLevel.spawnableMapObjects)
                 {
-                    item.numberToSpawn = new AnimationCurve(new Keyframe(0f, configSettings.TurretSpawnCurve1.Value), new Keyframe(1f, configSettings.TurretSpawnCurve2.Value));
-                }
-                else if(item.prefabToSpawn.GetComponentInChildren<Landmine>() != null)
-                {
-                    item.numberToSpawn = new AnimationCurve(new Keyframe(0f, configSettings.MineSpawnCurve1.Value), new Keyframe(1f, configSettings.MineSpawnCurve2.Value));
+                    if (item.prefabToSpawn.GetComponentInChildren<Turret>() != null)
+                    {
+                        item.numberToSpawn = new AnimationCurve(new Keyframe(0f, configSettings.TurretSpawnCurve1.Value), new Keyframe(1f, configSettings.TurretSpawnCurve2.Value));
+                    }
+                    else if (item.prefabToSpawn.GetComponentInChildren<Landmine>() != null)
+                    {
+                        item.numberToSpawn = new AnimationCurve(new Keyframe(0f, configSettings.MineSpawnCurve1.Value), new Keyframe(1f, configSettings.MineSpawnCurve2.Value));
+                    }
                 }
             }
 
-            newLevel.enemySpawnChanceThroughoutDay = new AnimationCurve(new Keyframe(0, configSettings.InsideEnemySpawnCurve1.Value), new Keyframe(0.5f, configSettings.InsideEnemySpawnCurve2.Value));
-            newLevel.daytimeEnemySpawnChanceThroughDay = new AnimationCurve(new Keyframe(0, configSettings.DaytimeEnemySpawnCurve1.Value), new Keyframe(0.5f, configSettings.DaytimeEnemySpawnCurve2.Value));
-            newLevel.outsideEnemySpawnChanceThroughDay = new AnimationCurve(new Keyframe(0, configSettings.OutsideEnemySpawnCurve1.Value), new Keyframe(20f, configSettings.OutsideEnemySpawnCurve2.Value), new Keyframe(21f, configSettings.OutsideEnemySpawnCurve3.Value));
+            if (configSettings.EnableEnemyModification.Value)
+            {
+                newLevel.enemySpawnChanceThroughoutDay = new AnimationCurve(new Keyframe(0, configSettings.InsideEnemySpawnCurve1.Value), new Keyframe(0.5f, configSettings.InsideEnemySpawnCurve2.Value));
+                newLevel.daytimeEnemySpawnChanceThroughDay = new AnimationCurve(new Keyframe(0, configSettings.DaytimeEnemySpawnCurve1.Value), new Keyframe(0.5f, configSettings.DaytimeEnemySpawnCurve2.Value));
+                newLevel.outsideEnemySpawnChanceThroughDay = new AnimationCurve(new Keyframe(0, configSettings.OutsideEnemySpawnCurve1.Value), new Keyframe(20f, configSettings.OutsideEnemySpawnCurve2.Value), new Keyframe(21f, configSettings.OutsideEnemySpawnCurve3.Value));
 
-            newLevel.maxEnemyPowerCount += configSettings.MaxInsideEnemyPowerModifier.Value;
-            newLevel.maxOutsideEnemyPowerCount += configSettings.MaxOutsideEnemyPowerModifier.Value;
-            newLevel.maxDaytimeEnemyPowerCount += configSettings.MaxDaytimeEnemyPowerModifier.Value;
+                newLevel.maxEnemyPowerCount += configSettings.MaxInsideEnemyPowerModifier.Value;
+                newLevel.maxOutsideEnemyPowerCount += configSettings.MaxOutsideEnemyPowerModifier.Value;
+                newLevel.maxDaytimeEnemyPowerCount += configSettings.MaxDaytimeEnemyPowerModifier.Value;
+            }
 
             difficultyModifiedLevels.Add(newLevel.levelID);
         }

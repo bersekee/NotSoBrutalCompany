@@ -7,41 +7,41 @@ using UnityEngine;
 
 namespace NotSoBrutalCompany.Events
 {
-    class SnareFleaEventCreator : BrutalEventCreator
+    class CoilHeadEventCreator : BrutalEventCreator
     {
         public override BrutalEvent Create()
         {
-            return new SnareFleaEvent();
+            return new CoilHeadEvent();
         }
     }
 
-    class SnareFleaEvent : BrutalEvent
+    class CoilHeadEvent : BrutalEvent
     {
         AnimationCurve oldAnimationCurve;
         List<int> rarities = new List<int>();
         int oldMaxCount;
 
-
         public override string GetEventName()
         {
-            return "Ready to suffocate ?";
+            return "Boing!";
         }
 
         public override void OnLoadNewLevel(ref SelectableLevel newLevel, ConfigSettings configs)
         {
             oldAnimationCurve = newLevel.enemySpawnChanceThroughoutDay;
-            newLevel.enemySpawnChanceThroughoutDay = new AnimationCurve(new UnityEngine.Keyframe(0, 500f));
+            newLevel.enemySpawnChanceThroughoutDay = new AnimationCurve(new Keyframe(0, 500f));
 
             for (int i = 0; i < newLevel.Enemies.Count; i++)
             {
                 rarities.Add(newLevel.Enemies[i].rarity);
                 newLevel.Enemies[i].rarity = 0;
-                if (newLevel.Enemies[i].enemyType.enemyPrefab.GetComponent<CentipedeAI>() != null)
+
+                if (newLevel.Enemies[i].enemyType.enemyPrefab.GetComponent<SpringManAI>() != null)
                 {
                     newLevel.Enemies[i].rarity = 999;
 
                     oldMaxCount = newLevel.Enemies[i].enemyType.MaxCount;
-                    newLevel.Enemies[i].enemyType.MaxCount = configs.SnareFleaEventSnareFleaMax.Value;
+                    newLevel.Enemies[i].enemyType.MaxCount = configs.CoilHeadEventCoilHeadMax.Value;
                 }
             }
         }
@@ -52,7 +52,8 @@ namespace NotSoBrutalCompany.Events
             for (int i = 0; i < newLevel.Enemies.Count; i++)
             {
                 newLevel.Enemies[i].rarity = rarities[i];
-                if (newLevel.Enemies[i].enemyType.enemyPrefab.GetComponent<CentipedeAI>() != null)
+
+                if (newLevel.Enemies[i].enemyType.enemyPrefab.GetComponent<SpringManAI>() != null)
                 {
                     newLevel.Enemies[i].enemyType.MaxCount = oldMaxCount;
                 }
@@ -63,7 +64,7 @@ namespace NotSoBrutalCompany.Events
         {
             foreach (var enemy in newLevel.Enemies)
             {
-                if (enemy.enemyType.enemyPrefab.GetComponent<CentipedeAI>() != null)
+                if (enemy.enemyType.enemyPrefab.GetComponent<SpringManAI>() != null)
                 {
                     return true;
                 }

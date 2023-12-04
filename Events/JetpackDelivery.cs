@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace NotSoBrutalCompany.Events
 {
-    class JetpackDelivery : GameEvent
+    class JetpackDeliveryCreator : BrutalEventCreator
+    {
+        public override BrutalEvent Create()
+        {
+            return new JetpackDelivery();
+        }
+    }
+
+    class JetpackDelivery : BrutalEvent
     {
         public override string GetEventName()
         {

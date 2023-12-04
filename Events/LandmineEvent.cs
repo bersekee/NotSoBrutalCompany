@@ -7,7 +7,15 @@ using UnityEngine;
 
 namespace NotSoBrutalCompany.Events
 {
-    class LandmineEvent : GameEvent
+    class LandmineEventCreator : BrutalEventCreator
+    {
+        public override BrutalEvent Create()
+        {
+            return new LandmineEvent();
+        }
+    }
+
+    class LandmineEvent : BrutalEvent
     {
         private AnimationCurve oldCurve;
 

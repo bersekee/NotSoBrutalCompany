@@ -7,7 +7,15 @@ using UnityEngine;
 
 namespace NotSoBrutalCompany.Events
 {
-    class SpiderEvent : GameEvent
+    class SpiderEventCreator : BrutalEventCreator
+    {
+        public override BrutalEvent Create()
+        {
+            return new SpiderEvent();
+        }
+    }
+
+    class SpiderEvent : BrutalEvent
     {
         AnimationCurve oldAnimationCurve;
         List<int> rarities = new List<int>();

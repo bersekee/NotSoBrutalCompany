@@ -7,7 +7,15 @@ using UnityEngine;
 
 namespace NotSoBrutalCompany.Events
 {
-    class TurretEvent : GameEvent
+    class TurretEventCreator : BrutalEventCreator
+    {
+        public override BrutalEvent Create()
+        {
+            return new TurretEvent();
+        }
+    }
+
+    class TurretEvent : BrutalEvent
     {
         private AnimationCurve oldCurve;
 

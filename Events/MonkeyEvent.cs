@@ -7,7 +7,15 @@ using UnityEngine;
 
 namespace NotSoBrutalCompany.Events
 {
-    class MonkeyEvent : GameEvent
+    class MonkeyEventCreator : BrutalEventCreator
+    {
+        public override BrutalEvent Create()
+        {
+            return new MonkeyEvent();
+        }
+    }
+
+    class MonkeyEvent : BrutalEvent
     {
         AnimationCurve oldOutsideSpawnChance;
         List<int> rarities = new List<int>();

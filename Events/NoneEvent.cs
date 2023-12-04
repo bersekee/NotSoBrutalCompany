@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NotSoBrutalCompany.Events
 {
-    public class NoneEvent : GameEvent
+    public class NoneEvent : BrutalEvent
     {
         public override string GetEventName()
         {

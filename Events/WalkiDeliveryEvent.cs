@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace NotSoBrutalCompany.Events
 {
-    class WalkiDeliveryEvent : GameEvent
+    class WalkiDeliveryEventCreator : BrutalEventCreator
+    {
+        public override BrutalEvent Create()
+        {
+            return new WalkiDeliveryEvent();
+        }
+    }
+
+    class WalkiDeliveryEvent : BrutalEvent
     {
         public override string GetEventName()
         {

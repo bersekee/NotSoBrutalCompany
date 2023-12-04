@@ -12,6 +12,15 @@ Syncing to clients who dont have the mod
 
 Removed the heat feature from brutal company.
 
+# V1.4.0
+- Added two generic events.
+- Added an option to disable each events.
+- Added an option to hide events in chat.
+- Added an option to fully disable different modules to avoid mod conflicts between mods.
+- Added an option to modify the deadline.
+- (For next patch) Exploring the idea of letting mods add custom events. Contact me if you are interested in doing so (it's already kind of possible).
+- (For next patch) Make difficulty configuration easier. Time is hard to find :(
+
 # V1.3.0
 - Added a config file to modify most of the internal values (quota, credit, enemies, etc...). Some event values are missing.
 - Normally nothing else changed, however this went through minimal testing.
@@ -19,10 +28,6 @@ Removed the heat feature from brutal company.
 # V1.2.3
 - Increased the maximum number of enemies during specific events Ex: More spiders during arachnophobia event. I will monitor the changes and try to balance it.
 - Added a new event.
-
-# V1.2.2
-- Increased the overall difficulty and quota.
-- Added passif credits.
 
 # Installation
 First, install BepInEx 5 into your game

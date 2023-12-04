@@ -7,7 +7,15 @@ using UnityEngine;
 
 namespace NotSoBrutalCompany.Events
 {
-    class LassoEvent : GameEvent
+    class LassoEventCreator : BrutalEventCreator
+    {
+        public override BrutalEvent Create()
+        {
+            return new LassoEvent();
+        }
+    }
+
+    class LassoEvent : BrutalEvent
     {
         public override string GetEventName()
         {

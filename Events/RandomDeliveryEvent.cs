@@ -7,7 +7,15 @@ using Random = UnityEngine.Random;
 
 namespace NotSoBrutalCompany.Events
 {
-    class RandomDeliveryEvent : GameEvent
+    class RandomDeliveryEventCreator : BrutalEventCreator
+    {
+        public override BrutalEvent Create()
+        {
+            return new RandomDeliveryEvent();
+        }
+    }
+
+    class RandomDeliveryEvent : BrutalEvent
     {
         public override string GetEventName()
         {

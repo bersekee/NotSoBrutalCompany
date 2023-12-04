@@ -6,22 +6,22 @@ using System.Threading.Tasks;
 
 namespace NotSoBrutalCompany.Events
 {
-    public class EventCreator
+    internal class EventCreator
     {
-        List<EventEnum> customEventOrder = new List<EventEnum> { EventEnum.SpiderEvent };
+        List<BrutalEventCreator> customEventOrder = new List<BrutalEventCreator> { new JesterEventCreator(), new CoilHeadEventCreator(), new JesterEventCreator() };
 
         private int customCurrentIndex = 0;
         private int currentIndex = 0;
 
-        public GameEvent GetRandomEvent()
+        public BrutalEvent GetRandomEvent()
         {
-            Array values = Enum.GetValues(typeof(EventEnum));
+            List<BrutalEventCreator> events = BrutalEventList.GetEvents();
             Random random = new Random();
-            EventEnum randomEvent = (EventEnum)values.GetValue(random.Next(values.Length));
-            return EnumToEvent(randomEvent);
+            BrutalEventCreator randomEvent = events[random.Next(events.Count)];
+            return randomEvent.Create();
         }
 
-        public GameEvent GetRandomEventWithWeight(int eventProbability)
+        public BrutalEvent GetRandomEventWithWeight(int eventProbability)
         {
             Random random = new Random();
             int randomValue = random.Next(0, 10);
@@ -30,74 +30,30 @@ namespace NotSoBrutalCompany.Events
                 return new NoneEvent();
             }
 
-            Array values = Enum.GetValues(typeof(EventEnum));
-            EventEnum randomEvent = (EventEnum)values.GetValue(random.Next(values.Length));
-            return EnumToEvent(randomEvent);
+            return GetRandomEvent();
         }
 
-        public GameEvent GetEventInOrder()
+        public BrutalEvent GetEventInOrder()
         {
-            Array values = Enum.GetValues(typeof(EventEnum));
-            EventEnum currentEvent = (EventEnum)values.GetValue(currentIndex);
+            List<BrutalEventCreator> events = BrutalEventList.GetEvents();
+            BrutalEventCreator currentEvent = events[currentIndex];
             currentIndex++;
-            if (currentIndex >= values.Length)
+            if (currentIndex >= events.Count)
             {
                 currentIndex = 0;
             }
-            return EnumToEvent(currentEvent);
+            return currentEvent.Create();
         }
 
-        public GameEvent GetEventInCustomOrder()
+        public BrutalEvent GetEventInCustomOrder()
         {
-            EventEnum currentEvent = customEventOrder[customCurrentIndex];
+            BrutalEventCreator currentEvent = customEventOrder[customCurrentIndex];
             customCurrentIndex++;
             if (customCurrentIndex >= customEventOrder.Count)
             {
                 customCurrentIndex = 0;
             }
-            return EnumToEvent(currentEvent);
-        }
-
-        public GameEvent EnumToEvent(EventEnum eventEnum)
-        {
-            switch (eventEnum)
-            {
-                case EventEnum.None:
-                    return new NoneEvent();
-                case EventEnum.Turret:
-                    return new TurretEvent();
-                case EventEnum.Landmine:
-                    return new LandmineEvent();
-                case EventEnum.Hoarding:
-                    return new HoardingEvent();
-                case EventEnum.Lasso:
-                    return new LassoEvent();
-                case EventEnum.SnareFlea:
-                    return new SnareFleaEvent();
-                case EventEnum.BrackenAndCoil:
-                    return new BrackenCoilEvent();
-                case EventEnum.RandomDelivery:
-                    return new RandomDeliveryEvent();
-                case EventEnum.WalkiDelivery:
-                    return new WalkiDeliveryEvent();
-                case EventEnum.SpiderEvent:
-                    return new SpiderEvent();
-                case EventEnum.DogEvent:
-                    return new DogEvent();
-                case EventEnum.Thunder:
-                    return new ThunderEvent();
-                case EventEnum.JetpackDelivery:
-                    return new JetpackDelivery();
-                case EventEnum.LittleGirl:
-                    return new LittleGirlEvent();
-                case EventEnum.Monkey:
-                    return new MonkeyEvent();
-                case EventEnum.Thumper:
-                    return new ThumperEvent();
-            }
-
-            //Default
-            return new NoneEvent();
+            return currentEvent.Create();
         }
     }
 }

@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace NotSoBrutalCompany.Events
 {
-    class ThunderEvent : GameEvent
+    class ThunderEventCreator : BrutalEventCreator
+    {
+        public override BrutalEvent Create()
+        {
+            return new ThunderEvent();
+        }
+    }
+
+    class ThunderEvent : BrutalEvent
     {
         LevelWeatherType oldType;
         bool oldOverrideWeather;

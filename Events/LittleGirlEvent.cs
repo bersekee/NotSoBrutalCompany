@@ -7,7 +7,15 @@ using UnityEngine;
 
 namespace NotSoBrutalCompany.Events
 {
-    class LittleGirlEvent : GameEvent
+    class LittleGirlEventCreator : BrutalEventCreator
+    {
+        public override BrutalEvent Create()
+        {
+            return new LittleGirlEvent();
+        }
+    }
+
+    class LittleGirlEvent : BrutalEvent
     {
         int oldRarity;
 
